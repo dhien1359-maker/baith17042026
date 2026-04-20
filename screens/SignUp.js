@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 // ĐÃ FIX: Thêm 'Image' vào dòng import này
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../AuthContext';
 
 export default function SignUp({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useContext(AuthContext);
+
+  const handleSignUp = async () => {
+    await login({ username, email, signupTime: new Date().toISOString() });
+    navigation.navigate('MainApp');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <Image 
@@ -25,7 +36,7 @@ export default function SignUp({ navigation }) {
       
       <Text style={styles.terms}>By continuing you agree to our <Text style={{color: '#53B175'}}>Terms of Service</Text> and <Text style={{color: '#53B175'}}>Privacy Policy.</Text></Text>
       
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={handleSignUp}>
         <Text style={styles.btnText}>Sign Up</Text>
       </TouchableOpacity>
       

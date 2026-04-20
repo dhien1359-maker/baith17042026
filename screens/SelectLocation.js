@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // ĐÃ THÊM: Import useState
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, TextInput, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SelectLocation({ navigation }) {
   // ĐÃ THÊM: State để hứng chữ mà bạn sẽ gõ vào 2 ô input

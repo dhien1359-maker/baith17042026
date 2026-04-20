@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 // Import dữ liệu từ file data.js bạn vừa tạo
 import { productData } from '../data';
+import { CartContext } from '../CartContext';
 
 export default function Favourite() {
+  const { addToCart } = useContext(CartContext);
   // Dùng Javascript array.filter() để chỉ lấy những sản phẩm có isFavorite = true
   const favoriteItems = productData.filter(item => item.isFavorite);
+
+  const addAllToCart = () => {
+    favoriteItems.forEach(item => {
+      addToCart(item, 1);
+    });
+  };
 
   // Giao diện cho từng dòng sản phẩm
   const renderItem = ({ item }) => (
@@ -41,7 +49,7 @@ export default function Favourite() {
 
       {/* Nút Add All To Cart */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={addAllToCart}>
           <Text style={styles.addBtnText}>Add All To Cart</Text>
         </TouchableOpacity>
       </View>

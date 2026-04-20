@@ -1,7 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function NumberScreen({ navigation }) {
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleNext = () => {
+    if (phoneNumber.length >= 9) {
+      navigation.navigate('Verification', { phoneNumber: '+84' + phoneNumber });
+    } else {
+      alert('Vui lòng nhập số điện thoại hợp lệ');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -11,10 +22,21 @@ export default function NumberScreen({ navigation }) {
       <Text style={styles.label}>Mobile Number</Text>
       <View style={styles.inputContainer}>
         <Text style={styles.flag}>🇻🇳 +84</Text>
-        <TextInput style={styles.input} keyboardType="phone-pad" autoFocus={true} />
+        <TextInput
+          style={styles.input}
+          keyboardType="phone-pad"
+          autoFocus={true}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          maxLength={10}
+        />
       </View>
       <View style={styles.fabContainer}>
-        <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('Verification')}>
+        <TouchableOpacity
+          style={[styles.fab, phoneNumber.length >= 9 && { backgroundColor: '#53B175' }]}
+          onPress={handleNext}
+          disabled={phoneNumber.length < 9}
+        >
           <Text style={styles.fabText}>{'>'}</Text>
         </TouchableOpacity>
       </View>

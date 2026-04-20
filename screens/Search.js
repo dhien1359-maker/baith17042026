@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, TextInput, FlatList, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { productData } from '../data';
+import { CartContext } from '../CartContext';
 
 export default function Search({ navigation }) {
+  const { addToCart } = useContext(CartContext);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredData, setFilteredData] = useState(productData || []); 
 
@@ -23,13 +25,13 @@ export default function Search({ navigation }) {
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={[styles.card, { width: cardWidth }]}>
+    <TouchableOpacity style={[styles.card, { width: cardWidth }]} onPress={() => navigation.navigate('ProductDetail', { item })}>
       <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
       <Text style={styles.cardName}>{item.name}</Text>
       <Text style={styles.cardSize}>{item.size}</Text>
       <View style={styles.cardBottom}>
         <Text style={styles.cardPrice}>${item.price.toFixed(2)}</Text>
-        <TouchableOpacity style={styles.addBtn}>
+        <TouchableOpacity style={styles.addBtn} onPress={() => addToCart(item, 1)}>
           <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>+</Text>
         </TouchableOpacity>
       </View>

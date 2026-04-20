@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { CartContext } from '../CartContext';
 
 export default function ProductDetail({ route, navigation }) {
   // Lấy dữ liệu sản phẩm được truyền từ màn Home hoặc Beverages
@@ -16,6 +18,11 @@ export default function ProductDetail({ route, navigation }) {
 
   // State để tăng giảm số lượng (tương tác vui vui cho giống thật)
   const [qty, setQty] = useState(1);
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToBasket = () => {
+    addToCart(product, qty);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -102,7 +109,7 @@ export default function ProductDetail({ route, navigation }) {
 
       {/* 8. Footer: Nút Add to Basket (Ghim ở đáy màn hình) */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.basketBtn}>
+        <TouchableOpacity style={styles.basketBtn} onPress={handleAddToBasket}>
           <Text style={styles.basketBtnText}>Add To Basket</Text>
         </TouchableOpacity>
       </View>

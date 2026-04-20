@@ -1,7 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function VerificationScreen({ navigation }) {
+export default function VerificationScreen({ navigation, route }) {
+  const [code, setCode] = useState('');
+  const phoneNumber = route.params?.phoneNumber || '+84';
+
+  const handleVerify = async () => {
+    if (/^\d{4}$/.test(code)) {
+      Alert.alert('Thành công', 'Mã xác thực hợp lệ!', [
+        { text: 'OK', onPress: () => navigation.navigate('SelectLocation') }
+      ]);
+    } else {
+      Alert.alert('Lỗi', 'Vui lòng nhập đúng 4 chữ số.');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
@@ -9,10 +23,22 @@ export default function VerificationScreen({ navigation }) {
       </TouchableOpacity>
       <Text style={styles.title}>Enter your 4-digit code</Text>
       <Text style={styles.label}>Code</Text>
-      <TextInput style={styles.input} keyboardType="number-pad" placeholder="- - - -" maxLength={4} autoFocus={true} />
+      <TextInput
+        style={styles.input}
+        keyboardType="number-pad"
+        placeholder="- - - -"
+        maxLength={4}
+        autoFocus={true}
+        value={code}
+        onChangeText={setCode}
+      />
       <View style={styles.bottomRow}>
         <Text style={styles.resend}>Resend Code</Text>
-        <TouchableOpacity style={styles.fab} onPress={() => navigation.navigate('SelectLocation')}>
+        <TouchableOpacity
+          style={[styles.fab, code.length === 4 && { backgroundColor: '#53B175' }]}
+          onPress={handleVerify}
+          disabled={code.length !== 4}
+        >
           <Text style={styles.fabText}>{'>'}</Text>
         </TouchableOpacity>
       </View>

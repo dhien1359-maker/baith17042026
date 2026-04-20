@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image } from 'react-native';
 // ĐÃ FIX: Đổi import SafeAreaView sang thư viện mới cho hết cảnh báo vàng
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../AuthContext';
 
 // ĐÃ THÊM: Khai báo thêm 'route' để nhận dữ liệu
 export default function Login({ route, navigation }) {
   
   // ĐÃ THÊM: Mở kiện hàng lấy 'location' từ SelectLocation truyền sang
   const { location } = route.params || {};
+  const { login } = useContext(AuthContext);
+
+  const handleLogin = async () => {
+    await login({
+      email: 'demo@nectar.com',
+      location,
+      loginTime: new Date().toISOString(),
+    });
+    navigation.navigate('MainApp');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,10 +43,7 @@ export default function Login({ route, navigation }) {
       {/* ĐÃ FIX: Sửa lại đoạn onPress này để xách theo location đi tiếp vào Home */}
       <TouchableOpacity 
         style={styles.btn} 
-        onPress={() => navigation.navigate('MainApp', { 
-          screen: 'Shop', 
-          params: { location: location } 
-        })}
+        onPress={handleLogin}
       >
         <Text style={styles.btnText}>Log In</Text>
       </TouchableOpacity>

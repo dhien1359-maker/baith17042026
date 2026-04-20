@@ -1,5 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, FlatList, Image, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { CartContext } from '../CartContext';
 
 // DỮ LIỆU ĐỒ UỐNG: Liên kết với file ảnh thực tế
 const beveragesData = [
@@ -12,6 +14,7 @@ const beveragesData = [
 ];
 
 export default function Beverages({ navigation }) {
+  const { addToCart } = useContext(CartContext);
   const windowWidth = Dimensions.get('window').width;
   const cardWidth = (windowWidth - 60) / 2; // Căn đều 2 thẻ trên 1 hàng
 
@@ -50,7 +53,7 @@ export default function Beverages({ navigation }) {
             <Text style={styles.cardSize}>{item.size}</Text>
             <View style={styles.cardBottom}>
               <Text style={styles.cardPrice}>${item.price}</Text>
-              <TouchableOpacity style={styles.addBtn}>
+              <TouchableOpacity style={styles.addBtn} onPress={() => addToCart(item, 1)}>
                 <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>+</Text>
               </TouchableOpacity>
             </View>

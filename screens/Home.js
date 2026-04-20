@@ -1,5 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TextInput, Image, FlatList, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, ScrollView, TextInput, Image, FlatList, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { CartContext } from '../CartContext';
 
 // DỮ LIỆU SẢN PHẨM: Đã liên kết trực tiếp với file ảnh thật trong assets của bạn
 const exclusiveOffers = [
@@ -21,14 +23,14 @@ const SectionTitle = ({ title }) => (
 );
 
 // COMPONENT DÙNG CHUNG: Ô sản phẩm đơn (Product Card)
-const ProductCard = ({ item, onPress }) => (
-  <TouchableOpacity style={styles.card} onPress={onPress}>
+const ProductCard = ({ item, onPress, onAddToCart }) => (
+  <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
     <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
     <Text style={styles.cardName}>{item.name}</Text>
     <Text style={styles.cardQuantity}>{item.quantity}</Text>
     <View style={styles.cardBottom}>
       <Text style={styles.cardPrice}>${item.price}</Text>
-      <TouchableOpacity style={styles.addBtn}>
+      <TouchableOpacity style={styles.addBtn} onPress={onAddToCart}>
         <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>+</Text>
       </TouchableOpacity>
     </View>
@@ -36,7 +38,8 @@ const ProductCard = ({ item, onPress }) => (
 );
 
 export default function Home({ route, navigation }) {
-  
+  const { addToCart } = useContext(CartContext);
+
   // ĐÃ THÊM: Mở kiện hàng lấy 'location'
   const { location } = route.params || {};
   
@@ -74,8 +77,13 @@ export default function Home({ route, navigation }) {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          // Khi bấm vào thẻ sẽ điều hướng sang ProductDetail kèm theo dữ liệu item
-          renderItem={({ item }) => <ProductCard item={item} onPress={() => navigation.navigate('ProductDetail', { item })} />}
+          renderItem={({ item }) => (
+            <ProductCard
+              item={item}
+              onPress={() => navigation.navigate('ProductDetail', { item })}
+              onAddToCart={() => addToCart(item, 1)}
+            />
+          )}
           contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
         />
 
@@ -86,7 +94,13 @@ export default function Home({ route, navigation }) {
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ProductCard item={item} onPress={() => navigation.navigate('ProductDetail', { item })} />}
+          renderItem={({ item }) => (
+            <ProductCard
+              item={item}
+              onPress={() => navigation.navigate('ProductDetail', { item })}
+              onAddToCart={() => addToCart(item, 1)}
+            />
+          )}
           contentContainerStyle={{ paddingLeft: 20, paddingBottom: 20 }}
         />
         

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AuthProvider, AuthContext } from './AuthContext';
+import { CartProvider } from './CartContext';
 
 // Import tất cả màn hình
 import Splash from './screens/Splash';
@@ -20,8 +22,12 @@ import ProductDetail from './screens/ProductDetail';
 import Beverages from './screens/Beverages';
 import Favourite from './screens/Favourite';
 import Cart from './screens/Cart';
+import Account from './screens/Account';
 import Search from './screens/Search';
 import Filter from './screens/Filter';
+import Orders from './screens/Orders';
+import OrderSuccess from './screens/OrderSuccess';
+import OrderFailed from './screens/OrderFailed';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,41 +48,65 @@ function MainTabs() {
           else if (route.name === 'Explore') iconName = '🔍';
           else if (route.name === 'Cart') iconName = '🛍️';
           else if (route.name === 'Favourite') iconName = '❤️';
-          else iconName = '👤';
+          else if (route.name === 'Account') iconName = '👤';
           return <Text style={{ color, fontSize: 24 }}>{iconName}</Text>;
         },
       })}
     >
       <Tab.Screen name="Shop" component={Home} />
-      {/* TRẢ LẠI MÀN EXPLORE CHO TAB ĐÁY */}
       <Tab.Screen name="Explore" component={Explore} /> 
       <Tab.Screen name="Cart" component={Cart} /> 
       <Tab.Screen name="Favourite" component={Favourite} />
-      <Tab.Screen name="Account" component={EmptyScreen} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
+  );
+}
+
+function AppNavigator() {
+  const { user, isLoading } = useContext(AuthContext);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  const initialRouteName = user ? 'MainApp' : 'Splash';
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
+      <Stack.Screen name="Splash" component={Splash} />
+      <Stack.Screen name="Onboard" component={Onboard} />
+      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="Number" component={Number} />
+      <Stack.Screen name="Verification" component={Verification} />
+      <Stack.Screen name="SelectLocation" component={SelectLocation} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="MainApp" component={MainTabs} />
+      <Stack.Screen name="ProductDetail" component={ProductDetail} />
+      <Stack.Screen name="Beverages" component={Beverages} />
+      <Stack.Screen name="OrderSuccess" component={OrderSuccess} />
+      <Stack.Screen name="OrderFailed" component={OrderFailed} />
+      <Stack.Screen name="Orders" component={Orders} />
+      
+      {/* ĐƯA MÀN SEARCH RA NGOÀI ĐÂY */}
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }} />
+    </Stack.Navigator>
   );
 }
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Onboard" component={Onboard} />
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="Number" component={Number} />
-        <Stack.Screen name="Verification" component={Verification} />
-        <Stack.Screen name="SelectLocation" component={SelectLocation} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="MainApp" component={MainTabs} />
-        <Stack.Screen name="ProductDetail" component={ProductDetail} />
-        <Stack.Screen name="Beverages" component={Beverages} />
-        
-        {/* ĐƯA MÀN SEARCH RA NGOÀI ĐÂY */}
-        <Stack.Screen name="Search" component={Search} />
-        <Stack.Screen name="Filter" component={Filter} options={{ presentation: 'modal' }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <CartProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </CartProvider>
+    </AuthProvider>
   );
 }
