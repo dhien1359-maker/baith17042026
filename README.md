@@ -2,7 +2,31 @@
 - Họ và tên: Đinh Thế Hiển
 - Mã sinh viên: 23810310283
 ## Kết quả
+## Hình ảnh minh họa
 
+## Kết quả thực hiện (Demo)
+
+<table>
+  <tr>
+    <td><img src="images/23810310283_01.jpg" width="300"><br><sub>Mô tả ảnh 1</sub></td>
+    <td><img src="images/23810310283_02.jpg" width="300"><br><sub>Mô tả ảnh 2</sub></td>
+  </tr>
+  <tr>
+    <td><img src="images/23810310283_03.jpg" width="300"><br><sub>Mô tả ảnh 3</sub></td>
+    <td><img src="images/23810310283_04.jpg" width="300"><br><sub>Mô tả ảnh 4</sub></td>
+  </tr>
+  <tr>
+    <td><img src="images/23810310283_05.jpg" width="300"><br><sub>Mô tả ảnh 5</sub></td>
+    <td><img src="images/23810310283_06.jpg" width="300"><br><sub>Mô tả ảnh 6</sub></td>
+  </tr>
+  <tr>
+    <td><img src="images/23810310283_07.jpg" width="300"><br><sub>Mô tả ảnh 7</sub></td>
+    <td><img src="images/23810310283_08.jpg" width="300"><br><sub>Mô tả ảnh 8</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="images/23810310283_09.jpg" width="300"><br><sub>Mô tả ảnh 9</sub></td>
+  </tr>
+</table>
 
 ## Câu hỏi
  1. Cơ chế của AsyncStorage
@@ -17,4 +41,4 @@ Về bản chất: AsyncStorage là "Kho chứa" (ổ cứng), còn Context API 
 Về lưu trữ: Context API lưu trên RAM nên sẽ mất dữ liệu khi đóng app; AsyncStorage lưu trên thiết bị nên không bị mất.
 Về hiệu năng: Context API giúp giao diện cập nhật ngay lập tức (Re-render) khi dữ liệu thay đổi; AsyncStorage chỉ là nơi lưu trữ thuần túy, không có khả năng tự cập nhật giao diện nếu không kết hợp với State.
 ## Video demo
-<img width="1000" height="998" alt="Screenshot 03_04_2026 1_15_57 CH" src="https://github.com/user-attachments/assets/18c57e10-5e97-4360-8e12-7395b2658b8f" />
+https://drive.google.com/file/d/1ZlKYdQPhIemMWtFdK2HAJWLIzgDzmQky/view?usp=sharing
