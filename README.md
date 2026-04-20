@@ -2,6 +2,11 @@
 - Họ và tên: Đinh Thế Hiển
 - Mã sinh viên: 23810310283
 ## Kết quả
+<<<<<<< HEAD
+=======
+## Hình ảnh minh họa
+
+>>>>>>> 634083ee4244f1d7582e741fe8b54de20e02472f
 ## Kết quả thực hiện (Demo)
 
 <table>
@@ -25,6 +30,10 @@
     <td colspan="2" align="center"><img src="images/23810310283_09.jpg" width="300"><br><sub>Mô tả ảnh 9</sub></td>
   </tr>
 </table>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 634083ee4244f1d7582e741fe8b54de20e02472f
 ## Câu hỏi
  1. Cơ chế của AsyncStorage
 Là hệ thống lưu trữ dữ liệu Key-Value cục bộ, bất đồng bộ (async/await) trên bộ nhớ máy.
